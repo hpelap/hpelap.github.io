@@ -1,0 +1,223 @@
+/* H-Pilot Web — jetons du design system.
+ *
+ * Toute valeur visuelle vient d'ici. Une page ne code jamais une couleur,
+ * un espacement ou un rayon « à la main » : elle utilise un jeton.
+ *
+ * Points de rupture (les propriétés CSS ne peuvent pas servir dans une
+ * media query ; les valeurs sont donc écrites en toutes lettres dans les
+ * règles, et rappelées ici comme référence unique) :
+ *
+ *   mobile    ≤ 600 px    tiroir de navigation, barre du bas, cartes
+ *   tablette  601–1100 px barre latérale réduite, tableaux compacts
+ *   bureau    > 1100 px   barre latérale complète, tableaux complets
+ *   large     ≥ 1440 px   densité accrue
+ *
+ * Le tactile se lit sur `(pointer: coarse)`, pas sur la largeur : un iPad
+ * en paysage (1180 px) a la mise en page bureau **et** des cibles de 44 px.
+ */
+
+:root {
+  /* Espacements — échelle de 4 px */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Rayons — légèrement arrondi */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  /* Typographie — police système : rapide, lisible, sans téléchargement */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: clamp(18px, 1.2vw + 12px, 20px);
+  --text-2xl: clamp(20px, 1.6vw + 12px, 26px);
+  --text-kpi: clamp(24px, 2.2vw + 14px, 32px);
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Tailles d'interface */
+  --touch-min: 44px;
+  --control-h: 36px;
+  --header-h: 56px;
+  --bottom-nav-h: 60px;
+  --sidebar-w: 240px;
+  --sidebar-rail-w: 68px;
+  --panel-w: min(480px, 42vw);
+  --content-max: 1600px;
+
+  /* Plans d'empilement */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-header: 50;
+  --z-sidebar: 60;
+  --z-overlay: 90;
+  --z-drawer: 100;
+  --z-sheet: 110;
+  --z-toast: 120;
+
+  /* Transitions — courtes et sobres */
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Zones sûres iOS (encoche, barre d'accueil) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
+  /* Couleurs — thème clair (les couleurs d'action reprennent H-Pilot) */
+  color-scheme: light;
+  --bg: #f6f5f3;
+  --surface: #ffffff;
+  --surface-2: #fbfaf8;
+  --surface-sunk: #f1efec;
+  --border: #e4e2de;
+  --border-strong: #cfccc6;
+  --ink: #1d1c1a;
+  --text: #37352f;
+  --text-soft: #5f5d58;
+  --text-muted: #6f6d68;
+  --accent: #1c5d8c;
+  --accent-hover: #164a70;
+  --accent-text: #16527d;
+  --accent-bg: #e9f1f7;
+  --accent-border: #cfe0ed;
+  --focus: #2e7cb4;
+  --success: #2f6b52;
+  --success-bg: #eaf4ef;
+  --success-border: #cfe3d8;
+  --warning: #8a5a0b;
+  --warning-bg: #fbf3e4;
+  --warning-border: #eed9b0;
+  --danger: #a53b33;
+  --danger-bg: #fbeeec;
+  --danger-border: #efd2ce;
+  --info: #16527d;
+  --info-bg: #e9f1f7;
+  --info-border: #cfe0ed;
+  --neutral-bg: #f1efec;
+  --neutral-border: #e1ded9;
+  --readonly: #5b4a8a;
+  --readonly-bg: #efebf8;
+  --readonly-border: #dcd3ef;
+  --shadow-sm: 0 1px 2px rgba(29, 28, 26, 0.06);
+  --shadow-md: 0 4px 16px rgba(29, 28, 26, 0.08);
+  --shadow-lg: 0 12px 40px rgba(29, 28, 26, 0.16);
+  --overlay: rgba(20, 20, 18, 0.42);
+  --skeleton-a: #eeece8;
+  --skeleton-b: #f6f5f2;
+}
+
+/* Thème sombre : suit le système, sauf choix explicite. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #161615;
+    --surface: #1f1f1e;
+    --surface-2: #242423;
+    --surface-sunk: #1a1a19;
+    --border: #33322f;
+    --border-strong: #46443f;
+    --ink: #f2f1ee;
+    --text: #e6e4df;
+    --text-soft: #bdbab3;
+    --text-muted: #a7a49d;
+    --accent: #5aa3d6;
+    --accent-hover: #7fb8dd;
+    --accent-text: #8cc2e6;
+    --accent-bg: #1c2d3a;
+    --accent-border: #2b4457;
+    --focus: #7fb8dd;
+    --success: #7fc4a3;
+    --success-bg: #1b2b24;
+    --success-border: #2b4538;
+    --warning: #e3b766;
+    --warning-bg: #2e2517;
+    --warning-border: #4a3b20;
+    --danger: #ec9a92;
+    --danger-bg: #331d1b;
+    --danger-border: #55302c;
+    --info: #8cc2e6;
+    --info-bg: #1c2d3a;
+    --info-border: #2b4457;
+    --neutral-bg: #272725;
+    --neutral-border: #3a3936;
+    --readonly: #c3b5ec;
+    --readonly-bg: #2a2438;
+    --readonly-border: #413859;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.6);
+    --overlay: rgba(0, 0, 0, 0.6);
+    --skeleton-a: #262624;
+    --skeleton-b: #2e2e2b;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #161615;
+  --surface: #1f1f1e;
+  --surface-2: #242423;
+  --surface-sunk: #1a1a19;
+  --border: #33322f;
+  --border-strong: #46443f;
+  --ink: #f2f1ee;
+  --text: #e6e4df;
+  --text-soft: #bdbab3;
+  --text-muted: #a7a49d;
+  --accent: #5aa3d6;
+  --accent-hover: #7fb8dd;
+  --accent-text: #8cc2e6;
+  --accent-bg: #1c2d3a;
+  --accent-border: #2b4457;
+  --focus: #7fb8dd;
+  --success: #7fc4a3;
+  --success-bg: #1b2b24;
+  --success-border: #2b4538;
+  --warning: #e3b766;
+  --warning-bg: #2e2517;
+  --warning-border: #4a3b20;
+  --danger: #ec9a92;
+  --danger-bg: #331d1b;
+  --danger-border: #55302c;
+  --info: #8cc2e6;
+  --info-bg: #1c2d3a;
+  --info-border: #2b4457;
+  --neutral-bg: #272725;
+  --neutral-border: #3a3936;
+  --readonly: #c3b5ec;
+  --readonly-bg: #2a2438;
+  --readonly-border: #413859;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.6);
+  --overlay: rgba(0, 0, 0, 0.6);
+  --skeleton-a: #262624;
+  --skeleton-b: #2e2e2b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+  }
+}
